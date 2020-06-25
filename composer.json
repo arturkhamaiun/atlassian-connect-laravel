@@ -1,0 +1,28 @@
+{
+    "name": "arturkhamaiun/atlassian-connect-laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Artur Khamaiun",
+            "email": "arturkhamaiun@gmail.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^5.2",
+        "guzzlehttp/guzzle": "^6.5",
+        "laravel/framework": "^7.17"
+    },
+    "autoload": {
+        "psr-4": {
+            "AtlassianConnectLaravel\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AtlassianConnectLaravel\\ServiceProvider"
+            ]
+        }
+    }
+}
