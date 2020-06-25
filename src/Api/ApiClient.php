@@ -52,14 +52,14 @@ class ApiClient
         return $this->request('get', $uri, ['query' => $query]);
     }
 
-    public function post(string $uri, array $body = [])
+    public function post(string $uri, array $query = [], array $body = [])
     {
-        return $this->request('post', $uri, ['json' => $body]);
+        return $this->request('post', $uri, ['query' => $query, 'json' => $body]);
     }
 
-    public function put(string $uri, array $body = [])
+    public function put(string $uri, array $query = [], array $body = [])
     {
-        return $this->request('put', $uri, ['json' => $body]);
+        return $this->request('put', $uri, ['query' => $query, 'json' => $body]);
     }
 
     public function request(string $method, string $uri = '', array $options = [])
@@ -75,7 +75,7 @@ class ApiClient
     public function paginated(
         string $method,
         string $uri = '',
-        array $params = [],
+        array $options = [],
         string $valuesKey = 'values',
         int $maxResults = 50
     ): LazyCollection {
@@ -85,22 +85,23 @@ class ApiClient
             new InvalidArgumentException('Method parameter must be get or post.');
         }
 
-        return LazyCollection::make(function () use ($method, $uri, $params, $valuesKey, $maxResults) {
+        return LazyCollection::make(function () use ($method, $uri, $options, $valuesKey, $maxResults) {
             $startAt = 0;
 
             do {
-                $params = array_merge($params, [
+                $optionKey = $method === 'get' ? 'query' : 'json';
+                $options[$optionKey] = array_merge($options[$optionKey] ?? [], [
                     'startAt' => $startAt,
                     'maxResults' => $maxResults,
                 ]);
-                $data = $this->{$method}($uri, $params);
+                $data = $this->request($method, $uri, $options);
 
                 if (!isset($data['total'])) {
-                    new InvalidArgumentException('Response data doesn\'t must have property total.');
+                    new InvalidArgumentException('Response data must have property total.');
                 }
 
                 if (!isset($data[$valuesKey])) {
-                    new InvalidArgumentException("Response data doesn\\'t must have property {$valuesKey}.");
+                    new InvalidArgumentException("Response data must have property {$valuesKey}.");
                 }
 
                 $total = $data['total'];
