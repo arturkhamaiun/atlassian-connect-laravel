@@ -23,22 +23,29 @@ class JwtGuard implements Guard
             return $this->user;
         }
 
-        if ($authorizationHeader = request()->header('Authorization')) {
-            $token = last(explode(' ', $authorizationHeader));
+        $token = last(explode(' ', request('jwt', request()->header('Authorization'))));
 
-            return $this->getUserByToken($token);
+        if (!$token) {
+            return null;
         }
+
+        return $this->getUserByToken($token);
     }
 
     public function validate(array $credentials = [])
     {
         $token = $credentials['token'] ?? null;
 
+        if (!$token) {
+            return null;
+        }
+
         return (bool) $this->getUserByToken($token);
     }
 
     public function getUserByToken(string $token): ?Authenticatable
     {
+        //TODO: Decoding and verifying a JWT token
         return $this->provider->retrieveByCredentials(
             ['client_key' => Arr::get(JwtHelper::decode($token), 'body.iss')]
         );

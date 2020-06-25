@@ -1,15 +1,17 @@
 <?php
 
-namespace AtlassianConnectLaravel;
+namespace AtlassianConnectLaravel\Api;
 
 use AtlassianConnectLaravel\Auth\JwtHelper;
 use AtlassianConnectLaravel\Models\Tenant;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use Illuminate\Support\LazyCollection;
+use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 
-class HttpClient
+class ApiClient
 {
     public Client $client;
 
@@ -55,6 +57,11 @@ class HttpClient
         return $this->request('post', $uri, ['json' => $body]);
     }
 
+    public function put(string $uri, array $body = [])
+    {
+        return $this->request('put', $uri, ['json' => $body]);
+    }
+
     public function request(string $method, string $uri = '', array $options = [])
     {
         $response = $this->client->request($method, $uri, $options);
@@ -63,6 +70,48 @@ class HttpClient
         $decoded = json_decode($contents, true);
 
         return $decoded ? $decoded : $contents;
+    }
+
+    public function paginated(
+        string $method,
+        string $uri = '',
+        array $params = [],
+        string $valuesKey = 'values',
+        int $maxResults = 50
+    ): LazyCollection {
+        $method = strtolower($method);
+
+        if ($method !== 'get' || $method !== 'post') {
+            new InvalidArgumentException('Method parameter must be get or post.');
+        }
+
+        return LazyCollection::make(function () use ($method, $uri, $params, $valuesKey, $maxResults) {
+            $startAt = 0;
+
+            do {
+                $params = array_merge($params, [
+                    'startAt' => $startAt,
+                    'maxResults' => $maxResults,
+                ]);
+                $data = $this->{$method}($uri, $params);
+
+                if (!isset($data['total'])) {
+                    new InvalidArgumentException('Response data doesn\'t must have property total.');
+                }
+
+                if (!isset($data[$valuesKey])) {
+                    new InvalidArgumentException("Response data doesn\\'t must have property {$valuesKey}.");
+                }
+
+                $total = $data['total'];
+                $isNotLast = ($total - $startAt) > $maxResults;
+                $startAt += $maxResults;
+
+                foreach ($data[$valuesKey] as $value) {
+                    yield $value;
+                }
+            } while ($isNotLast);
+        });
     }
 
     protected static function getAuthMiddleware(Tenant $tenant): callable

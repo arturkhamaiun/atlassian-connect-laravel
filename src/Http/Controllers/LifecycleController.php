@@ -3,17 +3,11 @@
 namespace AtlassianConnectLaravel\Http\Controllers;
 
 use AtlassianConnectLaravel\Models\Tenant;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LifecycleController
 {
-    // public function __construct()
-    // {
-    //     // throw new Exception();
-    // }
-
     public function installed(Request $request)
     {
         $tenant = Tenant::create($request->all());

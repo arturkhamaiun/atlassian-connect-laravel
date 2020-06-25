@@ -2,6 +2,7 @@
 
 namespace AtlassianConnectLaravel;
 
+use AtlassianConnectLaravel\Api\ApiClient;
 use AtlassianConnectLaravel\Auth\JwtGuard;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Foundation\Application;
@@ -22,8 +23,8 @@ class ServiceProvider extends BaseServiceProvider
             ]);
         });
 
-        $this->app->bind(HttpClient::class, function () {
-            return HttpClient::create(Auth::user(), config('plugin.apiVersion'));
+        $this->app->bind(ApiClient::class, function () {
+            return ApiClient::create(Auth::user(), config('plugin.apiVersion'));
         });
     }
 

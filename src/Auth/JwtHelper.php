@@ -8,12 +8,8 @@ class JwtHelper
 {
     /**
      * Decode JWT token.
-     *
-     * @param string $token
-     *
-     * @return null|array
      */
-    public static function decode($token)
+    public static function decode(string $token): ?array
     {
         $parts = explode('.', $token);
 
@@ -30,15 +26,8 @@ class JwtHelper
 
     /**
      * Create JWT token used by Atlassian REST API request.
-     *
-     * @param string $url    URL of the request
-     * @param string $method HTTP method
-     * @param string $issuer Key of the add-on
-     * @param string $secret Shared secret of the Tenant
-     *
-     * @return string
      */
-    public static function create(string $url, string $method, string $issuer, string $secret)
+    public static function create(string $url, string $method, string $issuer, string $secret): string
     {
         $payload = [
             'iss' => $issuer,
