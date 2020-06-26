@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PluginController
 {
-    public function descriptor(AppDescriptor $appDescriptor)
+    public function connect(AppDescriptor $appDescriptor)
     {
         return response()->json($appDescriptor->get());
     }

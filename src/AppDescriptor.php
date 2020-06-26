@@ -6,10 +6,19 @@ use Illuminate\Support\Arr;
 
 class AppDescriptor
 {
-    public function get()
-    {
-        $descriptor = config('descriptor');
+    protected array $content = [];
 
+    public function get(): array
+    {
+        $this->content = config('descriptor');
+
+        $this->buildWebhookEvents();
+
+        return $this->content;
+    }
+
+    public function buildWebhookEvents(): void
+    {
         foreach (PluginEvents::getRegisteredWebhookEvents() as $event) {
             $webhooks[] = [
                 'event' => $event,
@@ -18,8 +27,6 @@ class AppDescriptor
 
         }
 
-        !empty($webhooks) && Arr::set($descriptor, 'modules.webhooks', $webhooks);
-
-        return $descriptor;
+        !empty($webhooks) && Arr::set($content, 'modules.webhooks', $webhooks);
     }
 }
