@@ -4,7 +4,7 @@ namespace AtlassianConnectLaravel\Auth;
 
 use Illuminate\Support\Arr;
 
-class QSH
+class Qsh
 {
     /**
      * The request URL.

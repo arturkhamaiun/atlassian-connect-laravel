@@ -2,7 +2,7 @@
 
 namespace AtlassianConnectLaravel\Api;
 
-use AtlassianConnectLaravel\Auth\JwtHelper;
+use AtlassianConnectLaravel\Auth\Jwt;
 use AtlassianConnectLaravel\Models\Tenant;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
@@ -119,7 +119,7 @@ class ApiClient
     {
         return Middleware::mapRequest(
             function (RequestInterface $request) use ($tenant) {
-                $token = JwtHelper::create(
+                $token = Jwt::create(
                     $request->getUri(),
                     $request->getMethod(),
                     $tenant->key,
