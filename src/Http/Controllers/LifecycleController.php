@@ -2,6 +2,10 @@
 
 namespace AtlassianConnectLaravel\Http\Controllers;
 
+use AtlassianConnectLaravel\Events\Disabled;
+use AtlassianConnectLaravel\Events\Enabled;
+use AtlassianConnectLaravel\Events\Installed;
+use AtlassianConnectLaravel\Events\Uninstalled;
 use AtlassianConnectLaravel\Http\Requests\InstalledRequest;
 use AtlassianConnectLaravel\Http\Requests\LifecycleRequest;
 use AtlassianConnectLaravel\Models\Tenant;
@@ -17,6 +21,7 @@ class LifecycleController
         ], $request->all());
 
         Auth::setUser($tenant);
+        Installed::dispatch();
 
         return response(null, 204);
     }
@@ -25,6 +30,8 @@ class LifecycleController
     {
         $request->user()->update($request->all());
 
+        Enabled::dispatch();
+
         return response(null, 204);
     }
 
@@ -32,12 +39,16 @@ class LifecycleController
     {
         $request->user()->update($request->all());
 
+        Disabled::dispatch();
+
         return response(null, 204);
     }
 
     public function uninstalled(LifecycleRequest $request)
     {
         $request->user()->delete();
+
+        Uninstalled::dispatch();
 
         return response(null, 204);
     }
