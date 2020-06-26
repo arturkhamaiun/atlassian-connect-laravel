@@ -26,13 +26,12 @@ class Jwt
      */
     public static function verify(
         string $token,
-        string $algorithm,
         string $secret,
         string $url,
         string $method
     ): bool {
         try {
-            $data = FirebaseJwt::decode($token, $secret, [$algorithm]);
+            $data = FirebaseJwt::decode($token, $secret, ['HS256']);
         } catch (UnexpectedValueException $e) {
             return false;
         }

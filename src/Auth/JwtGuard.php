@@ -55,10 +55,8 @@ class JwtGuard implements Guard
 
     protected function getTenantByToken(string $token): ?Tenant
     {
-        $data = Jwt::decodeWithoutVerifying($token);
-
         $tenant = $this->provider->retrieveByCredentials(
-            ['client_key' => $data->body->iss]
+            ['client_key' => Jwt::decodeWithoutVerifying($token)->body->iss]
         );
 
         if ($tenant === null) {
@@ -67,7 +65,6 @@ class JwtGuard implements Guard
 
         $verificationResult = Jwt::verify(
             $token,
-            $data->header->alg,
             $tenant->shared_secret,
             $this->request->getUri(),
             $this->request->getMethod(),
