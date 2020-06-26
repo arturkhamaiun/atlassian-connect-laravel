@@ -22,7 +22,7 @@ class LifecycleController
         Auth::setUser($tenant);
         Installed::dispatch($tenant);
 
-        return response(null, 204);
+        return response(null, 200);
     }
 
     public function enabled(LifecycleRequest $request)
@@ -31,7 +31,7 @@ class LifecycleController
 
         Enabled::dispatch($request->user());
 
-        return response(null, 204);
+        return response(null, 200);
     }
 
     public function disabled(LifecycleRequest $request)
@@ -40,7 +40,7 @@ class LifecycleController
 
         Disabled::dispatch($request->user());
 
-        return response(null, 204);
+        return response(null, 200);
     }
 
     public function uninstalled(LifecycleRequest $request)
@@ -49,6 +49,6 @@ class LifecycleController
 
         $request->user()->delete();
 
-        return response(null, 204);
+        return response(null, 200);
     }
 }

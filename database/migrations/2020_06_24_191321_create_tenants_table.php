@@ -13,17 +13,14 @@ class CreateTenantsTable extends Migration
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('key', );
-            $table->string('client_key', );
-            $table->string('oauth_client_id', );
-            $table->string('public_key', );
-            $table->string('shared_secret', );
-            $table->string('server_version', );
-            $table->string('plugins_version', );
-            $table->string('base_url', );
-            $table->string('product_type', );
-            $table->string('description', );
-            $table->string('event_type', );
+            $table->string('key');
+            $table->string('client_key')->unique();
+            $table->string('oauth_client_id');
+            $table->string('shared_secret');
+            $table->string('base_url');
+            $table->string('product_type');
+            $table->string('description');
+            $table->string('event_type');
             $table->timestamps();
         });
     }

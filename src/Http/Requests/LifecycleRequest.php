@@ -16,9 +16,6 @@ class LifecycleRequest extends FormRequest
         return [
             'key' => 'required|string|max:255',
             'clientKey' => 'required|string|max:255',
-            'publicKey' => 'required|string|max:255',
-            'serverVersion' => 'required|string|max:255',
-            'pluginsVersion' => 'required|string|max:255',
             'baseUrl' => 'required|string|max:255',
             'productType' => 'required|string|max:255',
             'description' => 'required|string|max:255',
