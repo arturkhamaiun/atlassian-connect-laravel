@@ -22,9 +22,8 @@ class AppDescriptor
         foreach (PluginEvents::getRegisteredWebhookEvents() as $event) {
             $webhooks[] = [
                 'event' => $event,
-                'url' => route('webhook', ['event' => $event], false)
+                'url' => route('webhook', ['event' => $event], false),
             ];
-
         }
 
         !empty($webhooks) && Arr::set($content, 'modules.webhooks', $webhooks);

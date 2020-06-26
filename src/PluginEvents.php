@@ -12,7 +12,7 @@ class PluginEvents
         'installed',
         'enabled',
         'disabled',
-        'uninstalled'
+        'uninstalled',
     ];
 
     public static function listen($events, $listener)
@@ -20,12 +20,11 @@ class PluginEvents
         foreach ((array) $events as $event) {
             if (Str::contains($event, '*')) {
                 throw new Exception('Wildcard Event Listeners aren\'t supported');
-            } else {
-                app('events')->listen(self::withPrefix($event), $listener);
+            }
+            app('events')->listen(self::withPrefix($event), $listener);
 
-                if (!in_array($event, self::$availableLifecycleEvents)) {
-                    self::$registeredWebhookEvents[$event] = $event;
-                }
+            if (!in_array($event, self::$availableLifecycleEvents)) {
+                self::$registeredWebhookEvents[$event] = $event;
             }
         }
     }
