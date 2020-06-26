@@ -9,6 +9,7 @@
         }
     ],
     "require": {
+        "php": "^7.4.5",
         "firebase/php-jwt": "^5.2",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^7.17"

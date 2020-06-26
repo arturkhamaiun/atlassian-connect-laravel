@@ -2,9 +2,6 @@
 
 namespace AtlassianConnectLaravel\Events;
 
-use Illuminate\Foundation\Events\Dispatchable;
-
-class Uninstalled
+class Uninstalled extends LifecycleEvent
 {
-    use Dispatchable;
 }

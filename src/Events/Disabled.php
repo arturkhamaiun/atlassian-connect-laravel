@@ -2,9 +2,6 @@
 
 namespace AtlassianConnectLaravel\Events;
 
-use Illuminate\Foundation\Events\Dispatchable;
-
-class Disabled
+class Disabled extends LifecycleEvent
 {
-    use Dispatchable;
 }

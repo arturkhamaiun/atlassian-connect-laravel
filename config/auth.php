@@ -45,7 +45,7 @@ return [
     'providers' => [
         'tenants' => [
             'driver' => 'eloquent',
-            'model' => AtlassianConnectLaravel\Models\Tenant::class,
+            'model' => config('plugin.overrides.tenant'),
         ],
     ],
 ];

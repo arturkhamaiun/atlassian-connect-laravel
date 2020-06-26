@@ -8,20 +8,19 @@ use AtlassianConnectLaravel\Events\Installed;
 use AtlassianConnectLaravel\Events\Uninstalled;
 use AtlassianConnectLaravel\Http\Requests\InstalledRequest;
 use AtlassianConnectLaravel\Http\Requests\LifecycleRequest;
-use AtlassianConnectLaravel\Models\Tenant;
 use Illuminate\Support\Facades\Auth;
 
 class LifecycleController
 {
     public function installed(InstalledRequest $request)
     {
-        $tenant = Tenant::updateOrCreate([
+        $tenant = config('plugin.overrides.tenant')::updateOrCreate([
             'key' => $request->key,
             'shared_secret' => $request->sharedSecret,
         ], $request->all());
 
         Auth::setUser($tenant);
-        Installed::dispatch();
+        Installed::dispatch($tenant);
 
         return response(null, 204);
     }
@@ -30,7 +29,7 @@ class LifecycleController
     {
         $request->user()->update($request->all());
 
-        Enabled::dispatch();
+        Enabled::dispatch($request->user());
 
         return response(null, 204);
     }
@@ -39,16 +38,16 @@ class LifecycleController
     {
         $request->user()->update($request->all());
 
-        Disabled::dispatch();
+        Disabled::dispatch($request->user());
 
         return response(null, 204);
     }
 
     public function uninstalled(LifecycleRequest $request)
     {
-        $request->user()->delete();
+        Uninstalled::dispatch($request->user());
 
-        Uninstalled::dispatch();
+        $request->user()->delete();
 
         return response(null, 204);
     }

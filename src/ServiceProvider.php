@@ -39,10 +39,10 @@ class ServiceProvider extends BaseServiceProvider
         Route::getRoutes()->refreshNameLookups();
 
         $this->mergeConfigFrom("{$root}/config/descriptor.php", 'descriptor');
-        $this->publishes(["{$root}/config/descriptor.php" => config_path('descriptor.php')], 'config');
+        $this->publishes(["{$root}/config/descriptor.php" => config_path('descriptor.php')], 'atlassian-connect-laravel');
 
         $this->mergeConfigFrom("{$root}/config/plugin.php", 'plugin');
-        $this->publishes(["{$root}/config/plugin.php" => config_path('plugin.php')], 'config');
+        $this->publishes(["{$root}/config/plugin.php" => config_path('plugin.php')], 'atlassian-connect-laravel');
 
         $this->mergeRecursiveConfigFrom("{$root}/config/auth.php", 'auth');
 
