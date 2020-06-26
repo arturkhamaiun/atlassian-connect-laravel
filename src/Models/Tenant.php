@@ -27,6 +27,26 @@ class Tenant extends Model implements AuthenticatableContract
         'event_type',
     ];
 
+    public function isInstalled(): bool
+    {
+        return !$this->isUninstalled();
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->event_type === 'enabled';
+    }
+
+    public function isDisabled(): bool
+    {
+        return $this->event_type === 'disabled';
+    }
+
+    public function isUninstalled(): bool
+    {
+        return $this->event_type === 'uninstalled';
+    }
+
     public function fill(array $attributes)
     {
         foreach ($attributes as $property => $value) {

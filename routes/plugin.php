@@ -1,13 +1,14 @@
 <?php
 
-use AtlassianConnectLaravel\Http\Controllers\LifecycleController;
+use AtlassianConnectLaravel\Http\Controllers\PluginController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => response()->json(config('descriptor')));
-Route::post('/installed', [LifecycleController::class, 'installed'])->name('installed');
+Route::get('/', [PluginController::class, 'descriptor']);
+Route::post('/installed', [PluginController::class, 'installed'])->name('installed');
 
 Route::middleware('auth:plugin')->group(function () {
-    Route::post('/enabled', [LifecycleController::class, 'enabled'])->name('enabled');
-    Route::post('/disabled', [LifecycleController::class, 'disabled'])->name('disabled');
-    Route::post('/uninstalled', [LifecycleController::class, 'uninstalled'])->name('uninstalled');
+    Route::post('/enabled', [PluginController::class, 'enabled'])->name('enabled');
+    Route::post('/disabled', [PluginController::class, 'disabled'])->name('disabled');
+    Route::post('/uninstalled', [PluginController::class, 'uninstalled'])->name('uninstalled');
+    Route::post('/webhook/{event}', [PluginController::class, 'webhook'])->name('webhook');
 });
