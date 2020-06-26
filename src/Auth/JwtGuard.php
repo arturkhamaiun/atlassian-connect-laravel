@@ -40,7 +40,7 @@ class JwtGuard implements Guard
         $token = $credentials['token'] ?? null;
 
         if (!$token) {
-            return null;
+            return false;
         }
 
         return (bool) $this->getTenantByToken($token);

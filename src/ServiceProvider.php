@@ -52,9 +52,9 @@ class ServiceProvider extends BaseServiceProvider
     protected function mergeRecursiveConfigFrom($path, $key)
     {
         if (!($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
-            $this->app['config']->set($key, array_merge_recursive(
-                require $path,
-                $this->app['config']->get($key, [])
+            $this->app['config']->set(
+                $key,
+                array_merge_recursive(require $path, $this->app['config']->get($key, [])
             ));
         }
     }
