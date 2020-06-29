@@ -39,7 +39,7 @@ class PluginEvents
         return array_values($this->registeredWebhookEvents);
     }
 
-    protected function withPrefix(string $event)
+    public function withPrefix(string $event)
     {
         return "plugin.{$event}";
     }

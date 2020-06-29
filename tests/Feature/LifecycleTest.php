@@ -2,9 +2,11 @@
 
 namespace AtlassianConnectLaravel\Tests\Feature;
 
+use AtlassianConnectLaravel\Facades\PluginEvents;
 use AtlassianConnectLaravel\Models\Tenant;
 use AtlassianConnectLaravel\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 
 class LifecycleTest extends TestCase
 {
@@ -14,6 +16,7 @@ class LifecycleTest extends TestCase
     {
         parent::setUp();
         $this->withHeader('Accept', 'application/json');
+        Event::fake();
     }
 
     public function testConnect()
@@ -57,6 +60,8 @@ class LifecycleTest extends TestCase
             'description' => 'dummy',
             'event_type' => 'installed',
         ]);
+
+        Event::assertDispatched(PluginEvents::withPrefix('installed'));
     }
 
     public function testEnabled()
@@ -83,6 +88,8 @@ class LifecycleTest extends TestCase
             'description' => 'enabled_dummy',
             'event_type' => 'enabled',
         ]);
+
+        Event::assertDispatched(PluginEvents::withPrefix('enabled'));
     }
 
     public function testDisabled()
@@ -109,6 +116,8 @@ class LifecycleTest extends TestCase
             'description' => 'disabled_dummy',
             'event_type' => 'disabled',
         ]);
+
+        Event::assertDispatched(PluginEvents::withPrefix('disabled'));
     }
 
     public function testUninstalled()
@@ -127,5 +136,7 @@ class LifecycleTest extends TestCase
         $response->assertStatus(200);
 
         $this->assertDatabaseMissing('tenants', ['id' => $tenant->id]);
+
+        Event::assertDispatched(PluginEvents::withPrefix('uninstalled'));
     }
 }
