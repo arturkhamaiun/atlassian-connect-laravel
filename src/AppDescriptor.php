@@ -2,6 +2,7 @@
 
 namespace AtlassianConnectLaravel;
 
+use AtlassianConnectLaravel\Facades\PluginEvents;
 use Illuminate\Support\Arr;
 
 class AppDescriptor
@@ -26,6 +27,6 @@ class AppDescriptor
             ];
         }
 
-        !empty($webhooks) && Arr::set($content, 'modules.webhooks', $webhooks);
+        !empty($webhooks) && Arr::set($this->content, 'modules.webhooks', $webhooks);
     }
 }

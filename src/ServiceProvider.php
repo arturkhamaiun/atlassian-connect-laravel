@@ -7,7 +7,6 @@ use AtlassianConnectLaravel\Auth\JwtGuard;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
@@ -36,7 +35,6 @@ class ServiceProvider extends BaseServiceProvider
         $root = __DIR__.'/..';
 
         $this->loadRoutesFrom("{$root}/routes/plugin.php");
-        Route::getRoutes()->refreshNameLookups();
 
         $this->mergeConfigFrom("{$root}/config/descriptor.php", 'descriptor');
         $this->publishes(["{$root}/config/descriptor.php" => config_path('descriptor.php')], 'atlassian-connect-laravel');
@@ -47,6 +45,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->mergeRecursiveConfigFrom("{$root}/config/auth.php", 'auth');
 
         $this->loadMigrationsFrom("{$root}/database/migrations");
+        $this->loadFactoriesFrom("{$root}/database/factories");
     }
 
     protected function mergeRecursiveConfigFrom($path, $key)
@@ -54,8 +53,11 @@ class ServiceProvider extends BaseServiceProvider
         if (!($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
             $this->app['config']->set(
                 $key,
-                array_merge_recursive(require $path, $this->app['config']->get($key, [])
-            ));
+                array_merge_recursive(
+                    require $path,
+                    $this->app['config']->get($key, [])
+                )
+            );
         }
     }
 }

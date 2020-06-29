@@ -7,39 +7,39 @@ use Illuminate\Support\Str;
 
 class PluginEvents
 {
-    protected static array $registeredWebhookEvents = [];
-    protected static array $availableLifecycleEvents = [
+    protected array $registeredWebhookEvents = [];
+    protected array $availableLifecycleEvents = [
         'installed',
         'enabled',
         'disabled',
         'uninstalled',
     ];
 
-    public static function listen($events, $listener)
+    public function listen($events, $listener)
     {
         foreach ((array) $events as $event) {
             if (Str::contains($event, '*')) {
                 throw new Exception('Wildcard Event Listeners aren\'t supported');
             }
-            app('events')->listen(self::withPrefix($event), $listener);
+            app('events')->listen($this->withPrefix($event), $listener);
 
-            if (!in_array($event, self::$availableLifecycleEvents)) {
-                self::$registeredWebhookEvents[$event] = $event;
+            if (!in_array($event, $this->availableLifecycleEvents)) {
+                $this->registeredWebhookEvents[$event] = $event;
             }
         }
     }
 
-    public static function dispatch(string $event, $payload = [])
+    public function dispatch(string $event, $payload = [])
     {
-        app('events')->dispatch(self::withPrefix($event), $payload);
+        app('events')->dispatch($this->withPrefix($event), $payload);
     }
 
-    public static function getRegisteredWebhookEvents()
+    public function getRegisteredWebhookEvents()
     {
-        return array_values(self::$registeredWebhookEvents);
+        return array_values($this->registeredWebhookEvents);
     }
 
-    protected static function withPrefix(string $event)
+    protected function withPrefix(string $event)
     {
         return "plugin.{$event}";
     }

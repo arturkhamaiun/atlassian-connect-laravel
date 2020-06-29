@@ -9,10 +9,10 @@ return [
         'type' => 'jwt',
     ],
     'lifecycle' => [
-        'installed' => route('installed', [], false),
-        'uninstalled' => route('uninstalled', [], false),
-        'enabled' => route('enabled', [], false),
-        'disabled' => route('disabled', [], false),
+        'installed' => 'installed',
+        'uninstalled' => 'uninstalled',
+        'enabled' => 'enabled',
+        'disabled' => 'disabled',
     ],
     'scopes' => [
         'ADMIN',

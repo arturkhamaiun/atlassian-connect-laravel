@@ -3,9 +3,9 @@
 namespace AtlassianConnectLaravel\Http\Controllers;
 
 use AtlassianConnectLaravel\AppDescriptor;
+use AtlassianConnectLaravel\Facades\PluginEvents;
 use AtlassianConnectLaravel\Http\Requests\InstalledRequest;
 use AtlassianConnectLaravel\Http\Requests\LifecycleRequest;
-use AtlassianConnectLaravel\PluginEvents;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
