@@ -8,7 +8,7 @@ use AtlassianConnectLaravel\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 
-class LifecycleTest extends TestCase
+class PluginTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -138,5 +138,16 @@ class LifecycleTest extends TestCase
         $this->assertDatabaseMissing('tenants', ['id' => $tenant->id]);
 
         Event::assertDispatched(PluginEvents::withPrefix('uninstalled'));
+    }
+
+    public function testWebhook()
+    {
+        $tenant = factory(Tenant::class)->create();
+
+        $response = $this->be($tenant, 'plugin')->post('/webhook/some-random-event');
+
+        $response->assertStatus(200);
+
+        Event::assertDispatched(PluginEvents::withPrefix('some-random-event'));
     }
 }
