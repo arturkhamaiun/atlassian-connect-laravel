@@ -18,7 +18,11 @@ class PluginController
 
     public function installed(InstalledRequest $request)
     {
-        $tenant = config('plugin.overrides.tenant')::create($request->all());
+        $tenantClass = config('plugin.overrides.tenant');
+        $tenant = new $tenantClass($request->all());
+        $tenant->oauth_client_id = $request->oauthClientId;
+        $tenant->shared_secret = $request->sharedSecret;
+        $tenant->save();
 
         Auth::setUser($tenant);
         PluginEvents::dispatch('installed', $request);

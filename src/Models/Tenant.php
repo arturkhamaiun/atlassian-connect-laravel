@@ -19,8 +19,6 @@ class Tenant extends Model implements AuthenticatableContract
     protected $fillable = [
         'key',
         'client_key',
-        'oauth_client_id',
-        'shared_secret',
         'base_url',
         'product_type',
         'description',
