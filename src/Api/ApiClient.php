@@ -25,22 +25,6 @@ class ApiClient
         $stack = HandlerStack::create();
         $stack->push(static::getAuthMiddleware($tenant));
 
-        // $messageFormats = [
-        //     'REQUEST: {method} - {uri} - HTTP/{version} - {req_headers} - {req_body}',
-        //     'RESPONSE: {code} - {res_body}',
-        // ];
-
-        // collect($messageFormats)->each(function ($messageFormat) use ($stack) {
-        //     $stack->push(
-        //         Middleware::log(
-        //             with(new \Monolog\Logger('laravel'))->pushHandler(
-        //                 new \Monolog\Handler\StreamHandler(storage_path('logs/laravel.log'))
-        //             ),
-        //             new \GuzzleHttp\MessageFormatter($messageFormat)
-        //         )
-        //     );
-        // });
-
         $config['handler'] = $stack;
         $config['base_uri'] = "{$tenant->base_url}/rest/api/{$apiVersion}/";
 
