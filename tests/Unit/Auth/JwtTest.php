@@ -9,12 +9,11 @@ class JwtTest extends TestCase
 {
     //Jwt::create('http://localhost:8000', 'GET', 'issuer', 'secret');
     protected string $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOi'
-                            . 'Jpc3N1ZXIiLCJpYXQiOjE1OTM0MzUzMzgsImV4cCI6MTU5MzUyM'
-                            . 'TczOCwicXNoIjoiYzg4Y2FhZDE1YTFjMWE5MDBiOGFjMDhhYTk2ODZmN'
-                            . 'GU4MTg0NTM5YmVhMWRlZGEzNmUyZjY0OTQzMGRmMzIzOSJ9'
-                            . '.IrFJgYefZi6xodW0-KaGHF9ICJPQoyfmESx_dpgRdSg'
+                            .'Jpc3N1ZXIiLCJpYXQiOjE1OTM0MzUzMzgsImV4cCI6MTU5MzUyM'
+                            .'TczOCwicXNoIjoiYzg4Y2FhZDE1YTFjMWE5MDBiOGFjMDhhYTk2ODZmN'
+                            .'GU4MTg0NTM5YmVhMWRlZGEzNmUyZjY0OTQzMGRmMzIzOSJ9'
+                            .'.IrFJgYefZi6xodW0-KaGHF9ICJPQoyfmESx_dpgRdSg'
     ;
-
 
     public function testCreate()
     {
