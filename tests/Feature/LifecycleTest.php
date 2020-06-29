@@ -1,6 +1,6 @@
 <?php
 
-namespace AtlassianConnectLaravel\Tests\Unit;
+namespace AtlassianConnectLaravel\Tests\Feature;
 
 use AtlassianConnectLaravel\Models\Tenant;
 use AtlassianConnectLaravel\Tests\TestCase;
