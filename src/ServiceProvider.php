@@ -4,6 +4,7 @@ namespace AtlassianConnectLaravel;
 
 use AtlassianConnectLaravel\Api\ApiClient;
 use AtlassianConnectLaravel\Auth\JwtGuard;
+use AtlassianConnectLaravel\Facades\PluginEvents;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,10 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->loadMigrationsFrom("{$root}/database/migrations");
         $this->loadFactoriesFrom("{$root}/database/factories");
+
+        foreach (config('plugin.events') as $event => $handler) {
+            PluginEvents::listen($event, $handler);
+        }
     }
 
     protected function mergeRecursiveConfigFrom($path, $key)
