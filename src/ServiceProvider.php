@@ -36,9 +36,6 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->loadRoutesFrom("{$root}/routes/plugin.php");
 
-        $this->mergeConfigFrom("{$root}/config/descriptor.php", 'descriptor');
-        $this->publishes(["{$root}/config/descriptor.php" => config_path('descriptor.php')], 'atlassian-connect-laravel');
-
         $this->mergeConfigFrom("{$root}/config/plugin.php", 'plugin');
         $this->publishes(["{$root}/config/plugin.php" => config_path('plugin.php')], 'atlassian-connect-laravel');
 

@@ -11,7 +11,7 @@ class AppDescriptor
 
     public function get(): array
     {
-        $this->content = config('descriptor');
+        $this->content = config('plugin.descriptor');
 
         $this->buildWebhookEvents();
 

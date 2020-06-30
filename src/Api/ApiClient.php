@@ -60,8 +60,7 @@ class ApiClient
         string $method,
         string $uri = '',
         array $options = [],
-        string $valuesKey = 'values',
-        int $maxResults = 50
+        PaginationInfo $paginationInfo
     ): LazyCollection {
         $method = strtolower($method);
 
@@ -69,30 +68,31 @@ class ApiClient
             new InvalidArgumentException('Method parameter must be get or post.');
         }
 
-        return LazyCollection::make(function () use ($method, $uri, $options, $valuesKey, $maxResults) {
-            $startAt = 0;
+        return LazyCollection::make(function () use ($method, $uri, $options, $paginationInfo) {
+            $offset = $paginationInfo->getOffset();
+            $limit = $paginationInfo->getLimit();
 
             do {
                 $optionKey = $method === 'get' ? 'query' : 'json';
                 $options[$optionKey] = array_merge($options[$optionKey] ?? [], [
-                    'startAt' => $startAt,
-                    'maxResults' => $maxResults,
+                    $paginationInfo->getOffsetKey() => $offset,
+                    $paginationInfo->getLimitKey() => $limit,
                 ]);
                 $data = $this->request($method, $uri, $options);
 
-                if (!isset($data['total'])) {
+                if (!isset($data[$paginationInfo->getTotalKey()])) {
                     new InvalidArgumentException('Response data must have property total.');
                 }
 
-                if (!isset($data[$valuesKey])) {
-                    new InvalidArgumentException("Response data must have property {$valuesKey}.");
+                if (!isset($data[$paginationInfo->getResultsKey()])) {
+                    new InvalidArgumentException("Response data must have property {$paginationInfo->getResultsKey()}.");
                 }
 
-                $total = $data['total'];
-                $isNotLast = ($total - $startAt) > $maxResults;
-                $startAt += $maxResults;
+                $total = $data[$paginationInfo->getTotalKey()];
+                $isNotLast = ($total - $offset) > $limit;
+                $offset += $limit;
 
-                foreach ($data[$valuesKey] as $value) {
+                foreach ($data[$paginationInfo->getResultsKey()] as $value) {
                     yield $value;
                 }
             } while ($isNotLast);
