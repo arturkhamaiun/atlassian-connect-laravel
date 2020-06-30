@@ -15,10 +15,10 @@ return [
             'type' => 'jwt',
         ],
         'lifecycle' => [
-            'installed' => 'installed',
-            'uninstalled' => 'uninstalled',
-            'enabled' => 'enabled',
-            'disabled' => 'disabled',
+            'installed' => '/installed',
+            'uninstalled' => '/uninstalled',
+            'enabled' => '/enabled',
+            'disabled' => '/disabled',
         ],
         'scopes' => [
             'ADMIN',
