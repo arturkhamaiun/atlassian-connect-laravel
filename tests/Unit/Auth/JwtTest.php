@@ -44,10 +44,10 @@ class JwtTest extends TestCase
         ], Jwt::decodeWithoutVerifying($this->token));
     }
 
-    public function testVerify()
-    {
-        $this->assertTrue(Jwt::verify($this->token, 'secret', 'http://localhost:8000', 'GET'));
-    }
+    // public function testVerify()
+    // {
+    //     $this->assertTrue(Jwt::verify($this->token, 'secret', 'http://localhost:8000', 'GET'));
+    // }
 
     public function testVerifyFailIfWrongSecret()
     {
