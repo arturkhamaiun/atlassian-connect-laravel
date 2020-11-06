@@ -21,7 +21,7 @@ class PluginTest extends TestCase
 
     public function testConnect()
     {
-        $response = $this->get('/');
+        $response = $this->get('/connect');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([

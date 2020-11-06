@@ -3,7 +3,7 @@
 use AtlassianConnectLaravel\Http\Controllers\PluginController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/connect', [PluginController::class, 'connect']);
+Route::get('/connect', [PluginController::class, 'connect'])->name('connect');
 Route::post('/installed', [PluginController::class, 'installed'])->name('installed');
 
 Route::middleware('auth:plugin')->group(function () {

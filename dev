@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-COMPOSE_RUN="docker-compose exec -u nginx nginx-php-fpm"
-
 if [[ $# -gt 0 ]];then
   if [[ "$1" == "composer" ]]; then
     shift 1
