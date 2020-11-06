@@ -9,7 +9,7 @@ return [
     'descriptor' => [
         'name' => config('app.name'),
         'key' => 'com.atlassian.new-plugin',
-        'baseUrl' => config('app.url'),
+        'baseUrl' => request()->getSchemeAndHttpHost() . '/connect',
         'version' => '1.0.0',
         'authentication' => [
             'type' => 'jwt',
