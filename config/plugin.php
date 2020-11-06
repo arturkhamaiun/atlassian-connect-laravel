@@ -9,7 +9,7 @@ return [
     'descriptor' => [
         'name' => config('app.name'),
         'key' => 'com.atlassian.new-plugin',
-        'baseUrl' => 'https://' . $_SERVER['HTTP_HOST'] ?? config('app.url'),
+        'baseUrl' => isset($_SERVER['HTTP_HOST']) ? 'https://' . $_SERVER['HTTP_HOST'] : config('app.url'),
         'version' => '1.0.0',
         'authentication' => [
             'type' => 'jwt',
