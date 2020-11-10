@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'apiVersion' => 2,
+    'apiVersion' => 3,
     'events' => [],
     'overrides' => [
         'tenant' => \AtlassianConnectLaravel\Models\Tenant::class,
