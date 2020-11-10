@@ -36,9 +36,9 @@ class Jwt
             return false;
         }
 
-        // if ($data->qsh !== (new Qsh($url, $method))->create()) {
-        //     return false;
-        // }
+        if ($data->qsh !== (new Qsh($url, $method))->create()) {
+            return false;
+        }
 
         return true;
     }
