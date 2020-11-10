@@ -119,10 +119,7 @@ class Qsh
 
         ksort($params);
 
-        $query = $this->buildQuery($params);
-
-        // Encode underscores.
-        return str_replace('_', '%20', $query);
+        return $this->buildQuery($params);
     }
 
     /**
@@ -141,6 +138,16 @@ class Qsh
         }
 
         return $path;
+    }
+
+    public function canonicalMethod()
+    {
+        return $this->method;
+    }
+
+    public function claim(string $canonicalRequest)
+    {
+
     }
 
     /**
