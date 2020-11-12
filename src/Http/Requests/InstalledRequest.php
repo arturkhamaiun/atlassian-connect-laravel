@@ -9,7 +9,7 @@ class InstalledRequest extends LifecycleRequest
         return array_merge(
             parent::rules(),
             [
-                'clientKey' => 'required|string|max:255|unique:tenants,client_key',
+                'clientKey' => 'required|string|max:255',
                 'oauthClientId' => 'required|string|max:255',
                 'sharedSecret' => 'required|string|max:255',
             ]
