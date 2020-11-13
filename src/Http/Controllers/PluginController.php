@@ -19,7 +19,7 @@ class PluginController
     public function installed(InstalledRequest $request)
     {
         $tenantClass = config('plugin.overrides.tenant');
-        $tenant = $tenantClass::firstOrNew($request->only('client_key'), $request->all());
+        $tenant = $tenantClass::firstOrNew(['client_key' => $request->clientKey], $request->all());
         $tenant->oauth_client_id = $request->oauthClientId;
         $tenant->shared_secret = $request->sharedSecret;
         $tenant->save();
