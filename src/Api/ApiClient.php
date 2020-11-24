@@ -48,7 +48,7 @@ class ApiClient
 
     public function request(string $method, string $uri = '', array $options = [])
     {
-        $response = $this->client->request($method, $uri, $options);
+        $response = $this->client->request($method, ltrim($uri, '/'), $options);
 
         $contents = $response->getBody()->getContents();
         $decoded = json_decode($contents, true);
